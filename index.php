@@ -1,28 +1,37 @@
+
 <?php
+session_start();
+$PATH = dirname(__FILE__).'/';
+$COOKIEFILE = $PATH.'protect/kk-cookies';
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
+curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/5.0 (Windows NT 5.1) AppleWebKit/535.6 (KHTML, like Gecko) Chrome/16.0.897.0 Safari/535.6");
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
+curl_setopt($ch, CURLOPT_SSLVERSION, CURL_SSLVERSION_DEFAULT);
+curl_setopt($ch, CURLOPT_CAINFO, $PATH."cacert.pem");
+curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+curl_setopt($ch, CURLOPT_COOKIEJAR, $COOKIEFILE);
+curl_setopt($ch, CURLOPT_COOKIEFILE, $COOKIEFILE);
+curl_setopt($ch, CURLOPT_HEADER, 0);
+curl_setopt($ch, CURLOPT_TIMEOUT, 120);
 
-$curl = curl_init();
 
-curl_setopt_array($curl, array(
-  CURLOPT_URL => "http://www.joker138.net/Service/Login?Username=HP00000008&Password=Aef7e7bf14",
-  CURLOPT_RETURNTRANSFER => true,
-  CURLOPT_ENCODING => "",
-  CURLOPT_MAXREDIRS => 10,
-  CURLOPT_TIMEOUT => 30,
-  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-  CURLOPT_CUSTOMREQUEST => "POST",
-  CURLOPT_HTTPHEADER => array(
-    "cache-control: no-cache",
-    "postman-token: fce5c98b-e551-97b8-fde3-002dc8b8a3e0"
-  ),
-));
-
-$response = curl_exec($curl);
-$err = curl_error($curl);
-
-curl_close($curl);
-
-if ($err) {
-  echo "cURL Error #:" . $err;
-} else {
-  echo $response;
+$form_field['Username']  = "HP00000008";
+$form_field['Password'] = "Aef7e7bf14";
+$post_string = '';
+foreach($form_field as $key => $value) {
+    $post_string .= $key . '=' . urlencode($value) . '&';
 }
+$post_string = substr($post_string, 0, -1);
+
+
+curl_setopt($ch, CURLOPT_REFERER, 'http://www.joker138.net/Service/Login');
+curl_setopt($ch, CURLOPT_URL, 'http://www.joker138.net/Service/Login');
+curl_setopt($ch, CURLOPT_POST, 1);
+curl_setopt($ch, CURLOPT_POSTFIELDS, $post_string);
+$data = curl_exec($ch);
+
+echo $data;
+
+?>
