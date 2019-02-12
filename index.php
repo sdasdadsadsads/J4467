@@ -1,7 +1,6 @@
 
 <?php
-$userID = $_GET['userID'];
-$passPW = $_GET['passPW'];
+
 session_start();
 $PATH = dirname(__FILE__).'/';
 $COOKIEFILE = $PATH.'protect/kk-cookies';
@@ -31,8 +30,8 @@ curl_setopt($ch, CURLOPT_URL, 'http://www.joker138.net/Service/GetCommonJackpot?
 curl_setopt($ch, CURLOPT_POST, 0);
 curl_setopt($ch, CURLOPT_POSTFIELDS, null);
 $data = curl_exec($ch);
-$form_field['Username']  = $userID;
-$form_field['Password'] = $passPW;
+$form_field['Username']  = "HP00000008";
+$form_field['Password'] = "Aef7e7bf14";
 $post_string = '';
 foreach($form_field as $key => $value) {
     $post_string .= $key . '=' . urlencode($value) . '&';
